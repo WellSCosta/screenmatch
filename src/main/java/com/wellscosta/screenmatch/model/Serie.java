@@ -1,6 +1,6 @@
 package com.wellscosta.screenmatch.model;
 
-import com.fasterxml.jackson.annotation.JsonAlias;
+import com.wellscosta.screenmatch.service.traducao.ConsultaMyMemory;
 
 import java.util.OptionalDouble;
 
@@ -19,7 +19,7 @@ public class Serie {
         this.avaliacao = OptionalDouble.of(Double.valueOf(dadosSerie.avaliacao())).orElse(0);
         this.genero = Categoria.fromString(dadosSerie.genero().split(",")[0].trim());
         this.atores = dadosSerie.atores();
-        this.sinopse = dadosSerie.sinopse();
+        this.sinopse = ConsultaMyMemory.obterTraducao(dadosSerie.sinopse()).trim();
         this.poster = dadosSerie.poster();
     }
 

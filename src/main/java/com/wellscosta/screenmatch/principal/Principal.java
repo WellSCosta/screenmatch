@@ -27,13 +27,13 @@ public class Principal {
         do {
             var menu = """
                     =-=-=-=-=-=-=-=-=-=-=-=-=-=
-                    
+
                     1 - Buscar Séries
                     2 - Buscar Episódios
                     3 - Listar Séries Buscadas
-                                    
+
                     0 - Sair
-                    
+
                     =-=-=-=-=-=-=-=-=-=-=-=-=-=
                     """;
 
