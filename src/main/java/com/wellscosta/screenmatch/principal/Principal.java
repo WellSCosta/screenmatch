@@ -3,6 +3,7 @@ package com.wellscosta.screenmatch.principal;
 import com.wellscosta.screenmatch.model.DadosSerie;
 import com.wellscosta.screenmatch.model.DadosTemporada;
 import com.wellscosta.screenmatch.model.Serie;
+import com.wellscosta.screenmatch.repository.SerieRepository;
 import com.wellscosta.screenmatch.service.ConsumoApi;
 import com.wellscosta.screenmatch.service.ConverteDados;
 
@@ -19,9 +20,15 @@ public class Principal {
     private ConverteDados converteDados = new ConverteDados();
 
     private final String ENDERECO = "http://www.omdbapi.com/?t=";
-    private final String API_KEY = "&apikey=c0dd5134";
+    private final String API_KEY = System.getenv("OMDB_APIKEY");
 
     private List<DadosSerie> dadosSeries = new ArrayList<>();
+
+    private SerieRepository repository;
+    public Principal(SerieRepository repository) {
+        this.repository = repository;
+    }
+
     public void exibeMenu() {
         var opcao = 0;
         do {
@@ -61,10 +68,7 @@ public class Principal {
     }
 
     private void listarSeriesBuscadas() {
-        List<Serie> series = new ArrayList<>();
-        series = dadosSeries.stream()
-                .map(Serie::new)
-                .collect(Collectors.toList());
+        List<Serie> series = repository.findAll();
 
         series.stream()
                 .sorted(Comparator.comparing(Serie::getGenero))
@@ -85,7 +89,9 @@ public class Principal {
 
     private void buscarSerieWeb() {
         DadosSerie dados = getDadosSerie();
-        dadosSeries.add(dados);
+        Serie serie = new Serie(dados);
+        //dadosSeries.add(dados);
+        repository.save(serie);
         System.out.println(dados);
     }
 
